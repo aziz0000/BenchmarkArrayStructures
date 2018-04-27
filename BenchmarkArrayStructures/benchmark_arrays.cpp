@@ -113,13 +113,13 @@ struct Vec3Vector {
 
 
 void benchmark(int n) {
-	const auto S = 30; // number of steps (each step is a larger benchmark size)
-	const auto R = 3;  // number of repeated benchmarks per point (averaged)
+	const auto S = 80; // number of steps (each step is a larger benchmark size)
+	const auto R = 6;  // number of repeated benchmarks per point (averaged)
 	const auto N = 4;  // number of different array structures
 
 	// different benchmark sizes
 	std::vector<int> sizes(S);
-	std::generate(sizes.begin(), sizes.end(), [n, m = n]() mutable { auto v = m; m = m + n; return v; });
+	std::generate(sizes.begin(), sizes.end(), [n, m = n]() mutable { auto v = m; m = (m / 100) * 111; return v; });
 
 	// keep benchmark results
 	std::vector<std::vector<cputime>> times(N, std::vector<cputime>(S,cputime(0)));
