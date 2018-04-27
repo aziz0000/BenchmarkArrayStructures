@@ -23,7 +23,7 @@ int randInt(int min, int max) {
 
 
 using cputime = std::chrono::duration<double, std::micro>;
-struct vec3 { double x, y, z; };
+struct vec3 { double x=0.0, y=0.0, z=0.0; };
 
 // ###########################################
 
@@ -33,7 +33,7 @@ struct DoubleArray {
 	const std::string name = "double[] (size: 3N)";
 	int n;
 	double *p;
-	DoubleArray(int size) { n = size; p = new double[3 * n]; }
+	DoubleArray(int size) { n = size; p = new double[3 * n]; std::fill(p, p+3*n, 0.0);}
 	~DoubleArray() { delete[] p; }
 	cputime run(double x, double y, double z) {
 		auto t0 = std::chrono::steady_clock::now();
@@ -54,7 +54,7 @@ struct Vec3Array {
 	const std::string name = "vec3[] (size: N)";
 	int n;
 	vec3 *p;
-	Vec3Array(int size) { n = size; p = new vec3[n]; }
+	Vec3Array(int size) { n = size; p = new vec3[n];; std::fill(p, p + n, vec3());}
 	~Vec3Array() { delete[] p; }
 	cputime run(double x, double y, double z) {
 		auto t0 = std::chrono::steady_clock::now();
@@ -94,7 +94,7 @@ struct Vec3Vector {
 	const std::string name = "std::vector<vec3> (size: N)";
 	int n;
 	std::vector<vec3> p;
-	Vec3Vector(int size) { n = size; p.resize(n); }
+	Vec3Vector(int size) { n = size; p.resize(n, vec3()); }
 	cputime run(double x, double y, double z) {
 		auto t0 = std::chrono::steady_clock::now();
 		for (auto i = 0; i < n; i++)
@@ -197,5 +197,4 @@ int main() {
 	std::cin >> startLength;
 	benchmark(startLength);
 
-//	std::cin >> startLength;
 }
